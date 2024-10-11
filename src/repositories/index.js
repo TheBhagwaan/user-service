@@ -1,5 +1,5 @@
-const { StatusCodes } = require('http-status-codes');
-const { AppError }=require('../utils/hanlders/appError.js');
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../utils/hanlders/appError.js';
 
 export class CrudRepository {
     constructor(model) {

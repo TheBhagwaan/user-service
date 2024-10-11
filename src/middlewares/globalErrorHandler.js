@@ -1,4 +1,6 @@
 import { errorHandler } from '../utils/hanlders/errorHandler.js';
+import logger from '../utils/logger/index.js';
+import configs from '../configs/index.js';
 
 export function ErrorHandlingMiddleware(expressApp) {
     expressApp.use(async (error, req, res, next) => {
@@ -8,6 +10,14 @@ export function ErrorHandlingMiddleware(expressApp) {
         }
       }
       let err=await errorHandler.handleError(error);
-      return res.status(error.HTTPStatus).send({name:err.name,message:err.message,statusCode:err.HTTPStatus,stack:err.stack});
+      const response = {
+        ...error,
+        message: error.message,
+        ...(configs.NODE_ENV === "development" ? { stack: error.stack } : {}),
+      };
+      if(configs.NODE_ENV==="development"){
+        logger.error(response);
+      }
+      return res.status(error.statusCode).send(response);
     });
 }

@@ -46,9 +46,9 @@ class Config {
     if (!ValidConfigurationSchema) {
       throw new Error('Schema file not found');
     }
-
     const { error, value: validatedConfig } = ValidConfigurationSchema.validate(finalConfig);
     if (error) {
+      console.log(error)
       const missingProperties = error.details.map((detail) => detail.path[0]);
       throw new Error(
         `Config validation error: missing properties ${missingProperties}`,

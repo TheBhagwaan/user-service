@@ -2,15 +2,13 @@ import mongoose from 'mongoose';
 
 const schema = new mongoose.Schema({
     avatar: {
-        type:Object
+        type:String
     },
     name: {
-        type: String,
-        required: true
+        type: String
     },
     email: {
         type: String,
-        required: true,
         unique: true,
         lowercase: true,
         trim: true,
@@ -26,8 +24,7 @@ const schema = new mongoose.Schema({
         default: "user"
     },
     password: {
-        type: String,
-        required: [true, "Password is required"],
+        type: String
     },
     loginType: {
         type: String,
@@ -35,8 +32,10 @@ const schema = new mongoose.Schema({
         default: "OTP_BASED",
     },
     verificationOTP:{
-        type: Number,
-        required:true
+        type: String
+    },
+    verificationOTPExpiry: {
+        type: Date,
     },
     isEmailVerified: {
         type: Boolean,
@@ -56,7 +55,7 @@ const schema = new mongoose.Schema({
     },
     isActive:{
         type:Boolean,
-        default:true
+        default:false
     }
 }, { timestamps: true })
 
