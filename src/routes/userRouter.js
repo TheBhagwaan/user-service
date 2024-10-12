@@ -12,5 +12,7 @@ userRouter.get('/all',verifyJWT,userController.getAllUser)
 userRouter.patch('/',verifyJWT,userController.updateUser)
 userRouter.delete('/:user_id',verifyJWT,verifyPermission,userController.deleteUser)
 userRouter.post('/access',userController.genrateAcessToken)
+userRouter.get('/verify-email',verifyJWT,userController.sentEmailVerificationLink)
+userRouter.get('/verify-email/:token',userController.verifyEmail)
 
 export default userRouter

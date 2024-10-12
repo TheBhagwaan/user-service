@@ -82,7 +82,18 @@ export class UserController {
         const deletedUser = await this.service.deleteUserAdmin(user_id);
         return res.status(StatusCodes.OK).send(new ApiResponse(StatusCodes.NO_CONTENT, deletedUser, "User deleted successfully"));
     });
-    VerifyEmail = catchAsync(async (req, res) => {
+    sentEmailVerificationLink = catchAsync(async (req, res) => {
+        if (!req?.user) throw new AppError(StatusCodes.UNAUTHORIZED, "Token Missing in Headers")
+        let sentVerificationEmail = await this.service.sentVerificationEmail(req.user)
+        return res.status(StatusCodes.OK).send(new ApiResponse(StatusCodes.OK, sentVerificationEmail, "Email sent successful"))
+    
+    });
+    verifyEmail = catchAsync(async (req, res) => {
+        const { token } = req.params;
+        let verify = await this.service.verifyEmailLink(token)
+        if (!verify) throw new AppError(StatusCodes.BAD_REQUEST, "Error while verify email")
+        return res.status(StatusCodes.OK).send(new ApiResponse(StatusCodes.OK, null, "verification successful"))
+    
     });
     genrateAcessToken = catchAsync(async (req, res) => {
         let { accessToken,refreshToken } = req.body

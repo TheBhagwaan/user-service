@@ -55,8 +55,8 @@ export class Helper {
 
     };
 
-    static async generatePasswordResetToken(email) {
-        return jwt.sign({ email: email }, env.PASSWORD_RESET_SECRET, { expiresIn: env.RESET_TOKEN_TTL });
+    static async generateEmailVerificationToken(userId) {
+        return jwt.sign({ id: userId }, configs.EMAIL_VERIFICATION_SECRET, { expiresIn: configs.VERIFICATION_TOKEN_TTL });
     }
 
     static async decodeAccessToken(accessToken) {
@@ -67,8 +67,8 @@ export class Helper {
         return jwt.verify(refreshToken, configs.REFRESH_TOKEN_SECRET);
     }
 
-    static async decodeResetToken(resetToken) {
-        return jwt.verify(resetToken, env.PASSWORD_RESET_SECRET)
+    static async decodeEmailVerificationToken(verificationToken) {
+        return jwt.verify(verificationToken, configs.EMAIL_VERIFICATION_SECRET)
     }
 
     static generateOTP() {

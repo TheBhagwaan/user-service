@@ -3,6 +3,7 @@ import { Helper } from "../utils/helper/index.js";
 import { AppError } from "../utils/hanlders/appError.js"; // Assuming you have an AppError class
 import { StatusCodes } from "http-status-codes"; // Assuming you're using http-status-codes for status code references
 import configs from "../configs/index.js";
+import { sendEmailVerificationLink } from "../utils/emailNotifications/index.js"
 import moment from "moment";
 
 export class UserService {
@@ -125,5 +126,22 @@ export class UserService {
         } catch (error) {
             throw new AppError(error.statusCode, error.message, error);
         }
+    }
+    async sentVerificationEmail(userId){
+        let userExist=await this.repository.getById(userId);
+        if(!userExist) throw new AppError(StatusCodes.NOT_FOUND,'user not found');
+        if(!userExist.email) throw new AppError(StatusCodes.NOT_FOUND,'email not found');
+        if(userExist.isEmailVerified) throw new AppError(StatusCodes.BAD_REQUEST,'email alresdy verified');
+        let token= await Helper.generateEmailVerificationToken(userExist._id)
+        return await sendEmailVerificationLink(userExist.email,token)
+    }
+    async verifyEmailLink(token){
+        let decodeToken=await Helper.decodeEmailVerificationToken(token);
+        if (!decodeToken) throw new AppError(StatusCodes.BAD_REQUEST, "Verification Failed");
+        let userExist=await this.repository.getById(decodeToken.id);
+        if(!userExist) throw new AppError(StatusCodes.NOT_FOUND,'user not found');
+        userExist.isEmailVerified = true;
+        await userExist.save();
+        return userExist
     }
 }
