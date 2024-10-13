@@ -8,7 +8,7 @@ export class ProductRepository extends CrudRepository{
     }
 }
 
-export class VariantRepository extends CrudRepository{
+export class VarientRepository extends CrudRepository{
     constructor(){
         super(varientModel)
     }

@@ -38,6 +38,6 @@ export class AddressController {
     deleteAddressOfAUser = catchAsync(async (req, res) => {
         const { addressId } = req.params;
         const deletedAddress = await this.service.deleteAddress(addressId);
-        return res.status(StatusCodes.OK).send(new ApiResponse(StatusCodes.NO_CONTENT, deletedAddress, "User address deleted successfully"));
+        return res.status(StatusCodes.NO_CONTENT).send(new ApiResponse(StatusCodes.NO_CONTENT, deletedAddress, "User address deleted successfully"));
     })
 }

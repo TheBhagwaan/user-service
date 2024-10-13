@@ -13,25 +13,16 @@ export class CrudRepository {
 
     async deleteById(id) {
         const response = await this.model.findByIdAndDelete(id);
-        if(!response) {
-            throw new AppError('Not able to fund the resource',`Api Error`, StatusCodes.NOT_FOUND);
-        }
         return response;
     }
 
     async deleteMany(obj) {
         const response = await this.model.deleteMany(obj);
-        if(!response) {
-            throw new AppError('Not able to fund the resource',`Api Error`, StatusCodes.NOT_FOUND);
-        }
         return response;
     }
 
     async getById(id) {
         const response = await this.model.findById(id);
-        if(!response) {
-            throw new AppError('Not able to fund the resource', `Api Error`,StatusCodes.NOT_FOUND);
-        }
         return response;
     }
 

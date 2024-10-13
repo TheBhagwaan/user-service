@@ -12,7 +12,6 @@ const schema = new mongoose.Schema({
     },
     phone: {
         type: Number,
-        unique: true,
         trim: true,
     },
     email: {
@@ -64,4 +63,4 @@ const schema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-export default mongoose.model('address', schema, 'users')
+export default mongoose.model('userAddresses', schema, 'userAddresses')

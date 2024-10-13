@@ -85,7 +85,7 @@ export class UserController {
     sentEmailVerificationLink = catchAsync(async (req, res) => {
         if (!req?.user) throw new AppError(StatusCodes.UNAUTHORIZED, "Token Missing in Headers")
         let sentVerificationEmail = await this.service.sentVerificationEmail(req.user)
-        return res.status(StatusCodes.OK).send(new ApiResponse(StatusCodes.OK, sentVerificationEmail, "Email sent successful"))
+        return res.status(StatusCodes.NO_CONTENT).send(new ApiResponse(StatusCodes.OK, sentVerificationEmail, "Email sent successful"))
     
     });
     verifyEmail = catchAsync(async (req, res) => {
